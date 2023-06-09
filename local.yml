@@ -1,0 +1,23 @@
+---
+
+- name: "Gather facts"
+  hosts: 192.168.1.50
+  gather_facts: false
+  connection: network_cli
+  tasks:
+    - name: Gathering facts
+      ios_command:
+        commands:
+          - 'show process cpu | in CPU' 
+      register: results
+
+    - name: Save var
+      debug:
+        var: results.stdout
+       
+      
+      
+      
+
+      
+      
