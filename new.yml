@@ -1,0 +1,10 @@
+---
+- name: Testing jinja templates
+  hosts: 192.168.1.50
+  gather_facts: false
+  connection: network_cli
+  tasks:
+    - name: usernames
+      cisco.ios.ios_config:
+        src: "switch.j2"
+      
