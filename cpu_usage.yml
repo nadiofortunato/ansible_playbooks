@@ -1,19 +1,37 @@
 ---
 
-- name: "Gather facts"
+- name: "Gathering CPU %"
   hosts: 192.168.1.50
   gather_facts: false
   connection: network_cli
   tasks:
-    - name: Gathering cpu usage
+    - name: "play 1: Gathering cpu usage"
       ios_command:
         commands:
-          - 'show process cpu | in CPU' 
+          - 'show process cpu | include CPU' 
       register: results
 
-    - name: Save var
+    - name: "play 2: show results on the console"
       debug:
-        var: results.stdout
+        msg: "{{ results.stdout[0] }}"
+
+    - name: "play 3: create a directory output"
+      ansible.builtin.file:
+        path: "outputs"
+        state: directory
+      run_once: true
+
+    - name: "play 4: copy content to a file"
+      ansible.builtin.copy:
+        content: "{{ results.stdout[0] }}\n"
+        dest: "outputs/{{ inventory_hostname }}.txt"
+
+        
+        
+      
+
+
+
 
    
        
